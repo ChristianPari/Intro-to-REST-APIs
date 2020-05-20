@@ -8,6 +8,7 @@ Starting a new NPM Project
 Packages needed for a REST API Project:
     * Express
     * Mongoose
+    * Dotenv
     * (optional) "Auth Package" `ONLY OPTIONAL FOR TIME BEING, NECCESSARY FOR ACTUAL FULL STACK PORJECTS`
     * (optional) Nodemon
 
@@ -27,3 +28,9 @@ Folder descriptions:
         - Express
 
 * Full-Intro1
+    - This folder contains my second walkthrough of the basics and understanding the process of creating a proper REST API
+    - Technology Used:
+        - NPM
+        - Nodemon
+        - Express
+        - Dotenv
