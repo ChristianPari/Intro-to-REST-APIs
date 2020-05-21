@@ -1,3 +1,5 @@
+[Link](https://glitch.com/edit/#!/node-express-walkthrough) to Glitch.com where I went through and completed the FreeCodeCamp walkthrough of using Node and Express
+
 <b>May 19, 2020</b>
 6:30pm - 8:30pm
 Created a new npm project from the terminal using 'npm init'. Then installed packages 'Express' and 'Nodemon' via the terminal using 'npm i express nodemon'. Wihtin my package.json I created 'start' (-> runs regular node) and 'devStart' (-> runs the file with Nodemon) scripts. Then I created my main server file; app.js, ensured it was assigned to the key "main" within my package.json. <br>
