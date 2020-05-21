@@ -34,3 +34,4 @@ Folder descriptions:
         - Nodemon
         - Express
         - Dotenv
+    - Code created via in class walkthrough and YT Walkthrough [Programming With Mosh](https://www.youtube.com/watch?v=pKd0Rpw7O48), Twitter [Mosh](http://twitter.com/@moshhamedani)
