@@ -42,3 +42,4 @@ Folder descriptions:
         - NPM
         - Nodemon
         - Dotenv
+        - Joi
