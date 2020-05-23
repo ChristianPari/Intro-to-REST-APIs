@@ -35,4 +35,10 @@ Folder descriptions:
         - Express
         - Dotenv
         - Morgan
-    - Code created via in class walkthrough and YT Walkthrough [Programming With Mosh](https://www.youtube.com/watch?v=pKd0Rpw7O48), Twitter [Mosh](http://twitter.com/@moshhamedani)
+
+* REST-API-Walkthrough
+    - Code created via YT Walkthrough [Programming With Mosh](https://www.youtube.com/watch?v=pKd0Rpw7O48), Twitter [Mosh](http://twitter.com/@moshhamedani)
+    - Technology Used:
+        - NPM
+        - Nodemon
+        - Dotenv
