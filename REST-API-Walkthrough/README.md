@@ -1,7 +1,7 @@
-<b>May 20, 2020</b>
-In this tutorial I was walked through the steps of starting a server using 'Express' (Nodemon included as well). First we created an 'express' variable that is assigned the require module for express and then we created an 'app' variable which was assigned the express function to create an express application.
-Futher on we did a simply GET request to the root route and sent a string but first it did not work because we didn't have a listen function called for the port number, so after creating that and assigning a port number to the Dotenv file I created I then used the proccess property to extract the PORT number and assinged it to a variable named 'port'.
+<b>May 20, 2020</b><br>
+In this tutorial I was walked through the steps of starting a server using 'Express' (Nodemon included as well). First we created an 'express' variable that is assigned the require module for express and then we created an 'app' variable which was assigned the express function to create an express application.<br>
+Futher on we did a simply GET request to the root route and sent a string but first it did not work because we didn't have a listen function called for the port number, so after creating that and assigning a port number to the Dotenv file I created I then used the proccess property to extract the PORT number and assinged it to a variable named 'port'.<br>
 Next we went into understanding simple POST requests and how to test them using POSTMAN.
 
-<b>May 23, 2020</b>
+<b>May 23, 2020</b><br>
 Next was to install Joi and start the use of SCHEMA's to validate input. First step after install was to store it in a varibale as the package name Joi, then instead of creating the same SCHEMA for the validation of the input we were working with; we created a function that will take in as an argument the data being validated and then the SCHEMA is declared and then the data is validated using Joi's validate property and returned. We tested all the GET, POST, PUT, and DELETE requests wihtin Postman.
