@@ -22,3 +22,7 @@ Commented out all the code from the YT walkthrough and with my class began divin
 <b>May 23, 2020</b><br>
 2:30pm - 2:45pm<br>
 Transfered code from the YT walkthrough that was commentted out in this project and created a new project [here]() specifically for this walkthrough
+
+<b>May 26, 2020</b><br>
+6:30pm - 7:00pm<br>
+Took the global object that we were using as a database of movies and created a single run read/write file system proccess that converted that object into a stringified version and added it to a text file which is now being used as a local database. Left this code in the app.js file but commented out, incase I ever need refernce if I come across this again, was good practice with the 'fs' package in Node.
