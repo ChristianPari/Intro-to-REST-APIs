@@ -1,6 +1,7 @@
 const express = require('express'),
     fs = require('fs'),
-    router = express.Router();
+    router = express.Router(),
+    readDB = require('../middleware/readDB');
 
 // GET request for the subRoute /Users from the rootRoute
 router.get('/', (req, res) => {
