@@ -60,9 +60,9 @@ router.delete('/:id', readDB, validDB, (req, res) => {
 // ######################### POST a movie #########################
 router.post('/', readDB, validNewMovie, (req, res) => {
     console.log(req.dbData.movies);
-    let newMovieDB = req.dbData.movies;
+    let newMovieDB = req.dbData;
 
-    newMovieDB.push(req.body);
+    newMovieDB.movies.push(req.body);
 
     const stringifiedMovieDB = JSON.stringify(newMovieDB);
 
