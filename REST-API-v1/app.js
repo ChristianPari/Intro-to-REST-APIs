@@ -15,8 +15,6 @@ app.use(express.static(__dirname + '/static')); // serves the static files from 
 //! must create variables for the routes being used; require needed with the file path
 const homeRouter = require('./routes/homeRouter');
 
-// root/home route
 app.use('/', homeRouter);
-// users route
 
 app.listen(port, () => { console.log(`Listening on port:${port}`) });
