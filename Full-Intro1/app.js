@@ -23,19 +23,21 @@ console.log(`Created by: ${process.env.AUTHOR}`);
     // fs.writeFileSync(textFile, stringifiedData);
 }
 
-// ######################### Use methods added for code functionality #########################
+// ######################### MIDDLEWARE #########################
+
+//* ############### Middleware thats excuted on all routes ###############
 app.use(morgan('dev')); // used to get console logs of the requests being made
 app.use(express.json()); // used to parse data in my request body that's json
 app.use(express.static(__dirname + '/static')); // needed when we are using files that aren't changing like CSS
 //^ Place before calback function in the GET request
 
-// ######################### Route Handling w/ Middleware #########################
-const homeRouter = require('./routes/homeRouter'),
-    usersRouter = require('./routes/usersRouter'),
-    movieRouter = require('./routes/movieRouter');
+//* ############## Route Handling w/ Middleware ###############
+const homeRouter = require('./routes/homeRouter'), // home page
+    usersRouter = require('./routes/usersRouter'), // user page
+    movieRouter = require('./routes/movieRouter'); // movie page
 
 app.use('/', homeRouter); // hands off any request made to the root route to the homeRouter file
 app.use('/users', usersRouter); // hands off any request made to the root route to the userRouter file
 app.use('/movies', movieRouter);
 
-app.listen(port, () => { console.log(`Listening on Port:${port}`) });
+app.listen(port, () => { console.log(`Listening on Port: ${port}`) });
