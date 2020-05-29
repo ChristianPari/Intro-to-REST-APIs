@@ -1,0 +1,1 @@
+console.log("You're on the home page");
