@@ -59,14 +59,14 @@ router.delete('/:id', readDB, validDB, (req, res) => {
 
 // ######################### POST a movie #########################
 router.post('/', readDB, validNewMovie, (req, res) => {
-    console.log(req.dbData.movies);
-    let newMovieDB = req.dbData;
 
-    newMovieDB.movies.push(req.body);
+    let newDB = req.dbData;
 
-    const stringifiedMovieDB = JSON.stringify(newMovieDB);
+    newDB.movies.push(req.body);
 
-    fs.writeFileSync(textFile, stringifiedMovieDB);
+    const stringifiedNewDB = JSON.stringify(newDB);
+
+    fs.writeFileSync(textFile, stringifiedNewDB);
 
     res.status(200).json({
         status: 200,
@@ -76,7 +76,37 @@ router.post('/', readDB, validNewMovie, (req, res) => {
 
 });
 
-// updated a movie
+// ######################### update/PATCH a movie #########################
+router.patch('/:id', readDB, validDB, (req, res) => {
+
+    let choosenMovie = req.found;
+
+    for (const field in choosenMovie) {
+
+        if (req.body[field] != undefined) {
+
+            choosenMovie[field] = req.body[field];
+
+        }
+
+    }
+
+    const movieIndex = req.params.id - 1;
+    let newDB = req.dbData;
+
+    newDB.movies.splice(movieIndex, 1, choosenMovie);
+
+    const stringifiedNewDB = JSON.stringify(newDB);
+
+    fs.writeFileSync(textFile, stringifiedNewDB);
+
+    res.status(200).json({
+        status: 200,
+        message: `Succesfully updated movie #${movieIndex + 1}`,
+        updated_movie: req.found
+    });
+
+});
 
 //* ############### Middleware ###############
 function validDB(req, res, next) { // validates the database for any data at all
