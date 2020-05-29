@@ -11,7 +11,8 @@
 const express = require('express'),
     fs = require('fs'),
     router = express.Router(),
-    readDB = require('../middleware/readDB');
+    readDB = require('../middleware/readDB'),
+    textFile = process.cwd() + '/database/database.txt';
 
 // ######################### GET for all movies in DB #########################
 router.get('/', readDB, (req, res) => {
@@ -27,7 +28,7 @@ router.get('/', readDB, (req, res) => {
 });
 
 // ######################### GET for specific movie from DB #########################
-router.get('/:id', readDB, validate, (req, res) => {
+router.get('/:id', readDB, validDB, (req, res) => {
 
     res.status(200).json({
         status: 200,
@@ -36,8 +37,8 @@ router.get('/:id', readDB, validate, (req, res) => {
 
 });
 
-// ######################### Delete a movie #########################
-router.delete('/:id', readDB, validate, (req, res) => {
+// ######################### DELETE a movie #########################
+router.delete('/:id', readDB, validDB, (req, res) => {
 
     let databaseData = req.dbData; // will be removing a movie
 
@@ -56,12 +57,29 @@ router.delete('/:id', readDB, validate, (req, res) => {
 
 });
 
-// post/add a new movie
+// ######################### POST a movie #########################
+router.post('/', readDB, validNewMovie, (req, res) => {
+    console.log(req.dbData.movies);
+    let newMovieDB = req.dbData.movies;
+
+    newMovieDB.push(req.body);
+
+    const stringifiedMovieDB = JSON.stringify(newMovieDB);
+
+    fs.writeFileSync(textFile, stringifiedMovieDB);
+
+    res.status(200).json({
+        status: 200,
+        message: "New movie succesfully created",
+        new_movie: req.body
+    });
+
+});
 
 // updated a movie
 
-//* ############### Validate Function ###############
-function validate(req, res, next) {
+//* ############### Middleware ###############
+function validDB(req, res, next) { // validates the database for any data at all
 
     if (!req.dbData.movies) {
 
@@ -94,6 +112,103 @@ function validate(req, res, next) {
     req.found = dbMovies[movieID - 1]; // passes the movie id into the request
 
     next();
+
+};
+
+function validNewMovie(req, res, next) { // validates the movie data within the req body, err or continues to POST req
+
+    const { title: t, release: r, genre: g, ref, available: a } = req.body,
+        newMovieObj = {
+            title: t,
+            release: r,
+            genre: g,
+            ref: ref,
+            available: a
+        },
+        newMovieObjLength = Object.keys(newMovieObj).length,
+        bodyLength = Object.keys(req.body).length;
+
+    if (bodyLength < newMovieObjLength || bodyLength > 10) {
+
+        return res.status(400).json({
+            status: 400,
+            message: `Bad Request, there were too few or too many key-value pairs in the request body`,
+            required_fields: Object.keys(newMovieObj).join(', '),
+            req_body_length: bodyLength,
+            min_length: newMovieObjLength,
+            max_length: 10
+        })
+
+    }
+
+    let missingFields = []; // will recieve elements if the req.body doesn't pass the following if statement
+
+    for (const field in newMovieObj) {
+
+        if (newMovieObj[field] == undefined) {
+
+            missingFields.push(field);
+
+        }
+
+    }
+
+    if (missingFields.length > 0) {
+
+        missingFields = missingFields.join(', ');
+
+        return res.status(400).json({
+            status: 400,
+            error: 'Missing Fields',
+            message: `The following fields are required: ${missingFields}`
+        });
+
+    }
+
+    req.body = newMovieObj;
+
+    next();
+
+    //! would work when not having to remove anythin from the request body
+    // const fields = ['title', 'release', 'genre', 'ref', 'available'],
+    //     bodyLength = Object.keys(req.body).length;
+    // let missingFields = []; // will recieve elements if the req.body doesn't pass the following if statement
+
+    // if (bodyLength < fields.length || bodyLength > 10) {
+
+    //     return res.status(400).json({
+    //         status: 400,
+    //         message: `Bad Request, there were too few or too many key-value pairs in the request body`,
+    //         required_fields: fields.join(', '),
+    //         req_body_length: bodyLength,
+    //         min_length: fields.length,
+    //         max_length: 10
+    //     })
+
+    // }
+
+    // fields.forEach(field => {
+
+    //     if (!req.body[field]) {
+
+    //         missingFields.push(field);
+
+    //     }
+
+    // });
+
+    // if (missingFields.length > 0) {
+
+    //     missingFields = missingFields.join(', ');
+
+    //     return res.status(400).json({
+    //         status: 400,
+    //         message: `The following fields are required: ${missingFields}`
+    //     });
+
+    // }
+
+    // next();
 
 };
 
