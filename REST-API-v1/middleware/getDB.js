@@ -6,7 +6,7 @@ function getDB(req, res, next) {
         rawData = fs.readFileSync(textFile, 'utf8'),
         parsedData = JSON.parse(rawData);
 
-    req.body.db_data = parsedData;
+    req.db_data = parsedData;
 
     next();
 
