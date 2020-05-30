@@ -13,8 +13,10 @@ app.use(express.static(__dirname + '/static')); // serves the static files from 
 
 //* ############### Middleware/Route Handling ###############
 //! must create variables for the routes being used; require needed with the file path
-const homeRouter = require('./routes/homeRouter');
+const homeRouter = require('./routes/homeRouter'),
+    usersRouter = require('./routes/usersRouter');
 
-app.use('/', homeRouter);
+app.use('/', homeRouter); // handling for root route
+app.use('/users', usersRouter); // handling for users route
 
 app.listen(port, () => { console.log(`Listening on port:${port}`) });
