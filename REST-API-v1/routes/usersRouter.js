@@ -22,7 +22,7 @@ router.get('/:user_id', getDB, validID, (req, res) => { // GET a specific user f
 
 });
 
-router.post('/', getDB, validNewUser, (req, res) => {
+router.post('/', getDB, validNewUser, (req, res) => { // POST/Create a new user
 
     let newDB = req.db_data.users, // orginal DB but will be new once newUser is pushed to it
         newUser = req.body;
@@ -44,8 +44,29 @@ router.post('/', getDB, validNewUser, (req, res) => {
 
 });
 
+router.delete('/:user_id', getDB, validID, (req, res) => {
+
+    const userData = req.user_data,
+        usersDB = req.db_data.users,
+        userIdx = usersDB.indexOf(userData);
+
+    usersDB.splice(userIdx, 1);
+
+    const stirngifiedDB = JSON.stringify(usersDB);
+
+    fs.writeFileSync(textFile, stirngifiedDB);
+
+    res.status(200).json({
+
+        status: 200,
+        message: 'User succesfully deleted',
+        deleted_user: userData
+
+    });
+
+});
+
 // PATCH
-// DELETE
 
 //* ############### Middleware for requests ###############
 function validID(req, res, next) { // this validates if the requested user ID exists, if not responds with error
