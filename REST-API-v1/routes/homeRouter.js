@@ -3,7 +3,7 @@ const express = require("express"),
 
 router.get('/', (req, res) => {
 
-    res.sendFile(process.cwd() + '/static/home.html');
+    res.sendFile(process.cwd() + '/static/home');
     //^ need process.cwd() not __dirname here(< only in app.js)
 
 });
