@@ -1,4 +1,6 @@
 const express = require('express'),
+    mongoose = require('mongoose'),
+    User = require('../database/User'),
     fs = require('fs'),
     router = express.Router(),
     getDB = require('../middleware/getDB'),
@@ -8,7 +10,18 @@ const express = require('express'),
 
 router.get('/', getDB, (req, res) => { // GET to the users route displays all the collection of users
 
-    res.json(req.db_data.users);
+    // res.json(req.db_data.users);
+    //^ text file data
+
+    User.find({})
+        .then((data) => { // runs if succesful
+            res.json(data);
+        })
+        .catch(() => { // runs if error
+            res.json({
+                error: error
+            });
+        });
 
 });
 
