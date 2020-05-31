@@ -3,37 +3,89 @@ const express = require('express'),
     User = require('../database/User'),
     fs = require('fs'),
     router = express.Router(),
-    getDB = require('../middleware/getDB'),
-    validID = require('../middleware/validID'),
-    validNewUser = require('../middleware/validNewUser'),
-    textFile = (process.cwd() + '/database/db.txt');
+    getDB = require('../middleware/getDB'), //* for .txt db
+    validID = require('../middleware/validID'), //* for .txt db
+    validNewUser = require('../middleware/validNewUser'), //* for .txt db
+    textFile = (process.cwd() + '/database/db.txt'); //* for .txt db
 
-router.get('/', getDB, (req, res) => { // GET to the users route displays all the collection of users
+router.get('/', (req, res) => { // GET to the users route displays all the collection of users
 
+    // getDB
+    //^ middleware for .txt file
     // res.json(req.db_data.users);
-    //^ text file data
+    //^ text file response
 
     User.find({})
-        .then((data) => { // runs if succesful
-            res.json(data);
+        .then((allUsers) => { // runs if succesful
+            res.status(200).json({
+
+                status: 200,
+                message: 'All users in database',
+                db_data: allUsers
+
+            });
         })
-        .catch(() => { // runs if error
+        .catch((error) => { // runs if error
             res.json({
-                error: error
+
+                error_message: error
+
             });
         });
 
 });
 
-router.get('/:user_id', getDB, validID, (req, res) => { // GET a specific user from the DB
+router.get('/:user_id', (req, res) => { // GET a specific user from the DB
 
-    res.status(200).json({
+    // getDB, validID,
+    //^ middleware for .txt file
 
-        status: 200,
-        message: 'Valid user requested',
-        user_data: req.user_data
+    const reqUserID = req.params.user_id;
 
-    });
+    User.find({})
+        .then((allUsers) => { // runs if succesful
+            if (isNaN(reqUserID)) {
+
+                return res.status(400).json({
+
+                    status: 400,
+                    message: `The ID you have requested in not a number, only numbers are valid ID's. Please enter an ID from the range below`,
+                    users_range: `1 to ${allUsers.length}`,
+                    requested_id: reqUserID
+
+                });
+
+            } else if (!allUsers[reqUserID - 1]) {
+
+                return res.status(400).json({
+
+                    status: 400,
+                    message: 'Invalid user ID requested, not within the range of users',
+                    users_range: `1 to ${allUsers.length}`,
+                    requested_id: reqUserID
+
+                })
+
+            }
+
+            res.status(200).json({
+
+                status: 200,
+                message: 'User found',
+                user_data: allUsers[reqUserID - 1]
+
+            });
+
+        })
+        .catch((error) => { // runs if error
+
+            res.status(400).json({
+
+                error: error.message
+
+            });
+
+        });
 
 });
 
@@ -52,8 +104,7 @@ router.post('/', getDB, validNewUser, (req, res) => { // POST/Create a new user
 
         status: 200,
         message: 'User succesfully created',
-        new_user: newUser,
-        new_user_id: newDB.indexOf(newUser) + 1
+        new_user: newUser
 
     });
 
